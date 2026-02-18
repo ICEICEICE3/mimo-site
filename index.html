@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>bye mimi</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      background: radial-gradient(circle at 50% 50%, #04040a 0%, #000000 70%);
+      overflow: hidden;
+      font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    .star {
+      position: absolute;
+      background: white;
+      border-radius: 50%;
+      opacity: 0.8;
+      animation: blink 3s infinite ease-in-out;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 0.2; }
+      50% { opacity: 1; }
+    }
+
+    .drift {
+      animation: drift linear infinite;
+    }
+
+    @keyframes drift {
+      from { transform: translateX(0); }
+      to { transform: translateX(-100vw); }
+    }
+
+    .shooting-star {
+      position: absolute;
+      width: 2px;
+      height: 2px;
+      background: white;
+      border-radius: 50%;
+      box-shadow: 0 0 6px 2px white;
+      opacity: 0;
+    }
+
+    .shooting-star.active {
+      animation: shoot 6s linear forwards;
+    }
+
+    @keyframes shoot {
+      0% {
+        opacity: 0;
+        transform: translate(0, 0);
+      }
+      5% {
+        opacity: 1;
+      }
+      100% {
+        opacity: 0;
+        transform: translate(600px, 300px);
+      }
+    }
+
+    .message {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: white;
+      font-size: clamp(2rem, 6vw, 4rem);
+      letter-spacing: 0.2em;
+      text-align: center;
+      animation: float 8s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translate(-50%, -50%) translateY(0); }
+      50% { transform: translate(-50%, -50%) translateY(-15px); }
+    }
+  </style>
+</head>
+<body>
+
+<div class="message">bye mimi</div>
+
+<script>
+  const starCount = 120;
+
+  for (let i = 0; i < starCount; i++) {
+    const star = document.createElement('div');
+    star.classList.add('star');
+
+    const size = Math.random() * 2 + 1;
+    star.style.width = size + 'px';
+    star.style.height = size + 'px';
+    star.style.top = Math.random() * 100 + 'vh';
+    star.style.left = Math.random() * 100 + 'vw';
+    star.style.animationDelay = Math.random() * 4 + 's';
+
+    if (Math.random() > 0.6) {
+      star.classList.add('drift');
+      star.style.animationDuration = (20 + Math.random() * 40) + 's';
+    }
+
+    document.body.appendChild(star);
+  }
+
+  function createShootingStar() {
+    const star = document.createElement('div');
+    star.classList.add('shooting-star');
+
+    star.style.top = Math.random() * 40 + 'vh';
+    star.style.left = Math.random() * 60 + 'vw';
+
+    document.body.appendChild(star);
+
+    setTimeout(() => {
+      star.classList.add('active');
+    }, 50);
+
+    setTimeout(() => {
+      star.remove();
+    }, 6000);
+  }
+
+  setInterval(() => {
+    if (Math.random() > 0.5) {
+      createShootingStar();
+    }
+  }, 4000);
+
+</script>
+
+</body>
+</html>
